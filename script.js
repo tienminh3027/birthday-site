@@ -2,8 +2,8 @@
    BIRTHDAY CONFIG — edit everything here
    ============================================================ */
 const birthdayConfig = {
-  name: "MINH ANH",
-  nickname: "Minh Anh",
+  name: "Phương Anh",
+  nickname: "Phuong Anh",
   message:
 `Chúc cậu tuổi mới thật nhiều niềm vui,
 nhiều tiếng cười,
@@ -14,15 +14,9 @@ và quan trọng nhất...
 hãy luôn là chính cậu,
 một phiên bản thật tuyệt vời của mình.`,
   giftMessage:
-    "Cảm ơn cậu vì đã luôn ở đó. Mong năm mới của cậu ngập tràn những điều tuyệt vời như chính con người cậu vậy. 🎁❤️",
+    "Chúc cậu tuổi 18 rực rỡ, đỗ vào ngôi trường mình yêu thích. ",
   music: "assets/music.mp3",
   photos: [
-    { src: "assets/photo1.jpg", date: "SPRING, 2021", caption: "Ngày đầu gặp nhau" },
-    { src: "assets/photo2.jpg", date: "SUMMER, 2022", caption: "Chuyến đi biển đáng nhớ" },
-    { src: "assets/photo3.jpg", date: "AUTUMN, 2022", caption: "Buổi chiều cà phê" },
-    { src: "assets/photo4.jpg", date: "WINTER, 2023", caption: "Giáng sinh cùng nhau" },
-    { src: "assets/photo5.jpg", date: "SPRING, 2024", caption: "Sinh nhật năm ngoái" },
-    { src: "assets/photo6.jpg", date: "TODAY", caption: "Và bây giờ, một chương mới" },
   ],
 };
 
