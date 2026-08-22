@@ -154,12 +154,21 @@ if (!isTouch) {
 const musicBtn = document.getElementById("music-toggle");
 const musicAudio = document.getElementById("bg-music");
 let musicPlaying = false;
+
+musicAudio.addEventListener("error", () => {
+  const code = musicAudio.error ? musicAudio.error.code : "?";
+  // code 4 = MEDIA_ERR_SRC_NOT_SUPPORTED -> thường do sai đường dẫn (404) hoặc file không phải audio hợp lệ
+  console.error("Lỗi tải file nhạc nền (mã lỗi " + code + "). Kiểm tra: assets/music.mp3 có đúng tên/đúng chỗ và là file mp3 thật không.");
+});
 function tryPlayMusic(){
   musicAudio.volume = 0.5;
   musicAudio.play().then(() => {
     musicPlaying = true;
     musicBtn.classList.add("playing");
-  }).catch(() => { /* autoplay bị chặn, chờ người dùng thao tác */ });
+  }).catch((err) => {
+    // In lỗi ra Console để dễ chẩn đoán (404 sai đường dẫn, định dạng không hợp lệ, v.v.)
+    console.error("Không phát được nhạc nền:", err, "— kiểm tra đường dẫn:", musicAudio.currentSrc || musicAudio.src);
+  });
 }
 musicBtn.addEventListener("click", () => {
   if (musicPlaying) {
