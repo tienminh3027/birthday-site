@@ -26,8 +26,8 @@ một phiên bản thật tuyệt vời của mình.`,
   // bảng tính bạn xem bất cứ lúc nào. Lấy 2 giá trị này từ "pre-filled link" của
   // Google Form (xem hướng dẫn trong README.md). Để trống nếu không dùng.
   wishGoogleForm: {
-    actionUrl: "",   // ví dụ: "https://docs.google.com/forms/d/e/1FAIpQLxxxxx/formResponse"
-    entryId: "",      // ví dụ: "entry.1234567890"
+    actionUrl: "https://docs.google.com/forms/d/e/1FAIpQLScmRgH2oE4nRWlOBXoMH8WRbgxNvPbfD77j_nhmSjylPlBJGg/formResponse",
+    entryId: "entry.338267240",
   },
 };
 
