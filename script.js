@@ -2,19 +2,14 @@
    BIRTHDAY CONFIG — chỉ cần sửa ở đây
    ============================================================ */
 const birthdayConfig = {
-  name: "MINH ANH",
-  nickname: "Minh Anh",
+  name: "PHƯỢNG ANH",
+  nickname: "Phượng Anh",
   message:
 `Chúc cậu tuổi mới thật nhiều niềm vui,
 nhiều tiếng cười,
-nhiều điều bất ngờ,
-
-và quan trọng nhất...
-
-hãy luôn là chính cậu,
-một phiên bản thật tuyệt vời của mình.`,
+nhiều điều bất ngờ.`,
   giftMessage:
-    "Cảm ơn cậu vì đã luôn ở đó. Mong năm mới của cậu ngập tràn những điều tuyệt vời như chính con người cậu vậy. 🎁❤️",
+    "Chúc cậu tuổi 17 thật rực rỡ, thi đỗ vào ngôi trường mình yêu thích. 🎁❤️",
   music: "assets/music.mp3",
 
   // (Tùy chọn) Dán link "Form endpoint" của Formspree vào đây để điều ước được
