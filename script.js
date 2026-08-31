@@ -134,6 +134,7 @@ function saveWish(text){
   //    với Google Form đó (gửi ngầm qua iframe ẩn, không mở trang nào cả)
   const gf = birthdayConfig.wishGoogleForm;
   if (gf && gf.actionUrl && gf.entryId) {
+    console.log("→ Đang gửi điều ước tới Google Form:", { actionUrl: gf.actionUrl, entryId: gf.entryId, text });
     try {
       const form = document.createElement("form");
       form.action = gf.actionUrl;
@@ -149,9 +150,12 @@ function saveWish(text){
       document.body.appendChild(form);
       form.submit();
       setTimeout(() => form.remove(), 1500);
+      console.log("→ Đã submit form (không đọc được kết quả do khác domain, nhưng nếu không có lỗi ở trên nghĩa là đã gửi đi).");
     } catch (err) {
       console.warn("Không gửi được điều ước vào Google Form:", err);
     }
+  } else {
+    console.warn("wishGoogleForm chưa được cấu hình đúng (actionUrl/entryId trống) — điều ước sẽ KHÔNG gửi vào Google Sheet.");
   }
 }
 
