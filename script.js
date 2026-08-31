@@ -20,14 +20,14 @@ một phiên bản thật tuyệt vời của mình.`,
   // (Tùy chọn) Dán link "Form endpoint" của Formspree vào đây để điều ước được
   // gửi thẳng về email bạn ngay khi có người nhập. Để trống ("") nếu không cần —
   // điều ước vẫn luôn được lưu lại trong trình duyệt của người xem (localStorage).
-  wishFormEndpoint: "",
+  wishFormEndpoint: "https://formspree.io/f/mrpgeqpg",
 
   // (Tùy chọn) Kết nối Google Form -> Google Sheet để mọi điều ước tự đổ vào 1
   // bảng tính bạn xem bất cứ lúc nào. Lấy 2 giá trị này từ "pre-filled link" của
   // Google Form (xem hướng dẫn trong README.md). Để trống nếu không dùng.
   wishGoogleForm: {
-    actionUrl: "https://docs.google.com/forms/d/e/1FAIpQLScmRgH2oE4nRWlOBXoMH8WRbgxNvPbfD77j_nhmSjylPlBJGg/formResponse",
-    entryId: "entry.338267240",
+    actionUrl: "",   // đã tắt — chuyển sang dùng Formspree ở trên vì Google Form chặn submit tự động (lỗi 403)
+    entryId: "",
   },
 };
 
@@ -119,6 +119,7 @@ function saveWish(text){
 
   // 2) Nếu đã cấu hình wishFormEndpoint (Formspree), gửi luôn điều ước về email bạn
   if (birthdayConfig.wishFormEndpoint) {
+    console.log("→ Đang gửi điều ước qua Formspree tới:", birthdayConfig.wishFormEndpoint);
     fetch(birthdayConfig.wishFormEndpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
@@ -127,7 +128,13 @@ function saveWish(text){
         "Từ trang sinh nhật của": birthdayConfig.name,
         "Thời gian": new Date().toLocaleString("vi-VN"),
       }),
-    }).catch((err) => console.warn("Không gửi được điều ước qua form:", err));
+    }).then((res) => {
+      if (res.ok) {
+        console.log("→ Formspree đã nhận điều ước thành công (status " + res.status + ").");
+      } else {
+        console.warn("→ Formspree phản hồi lỗi, status:", res.status);
+      }
+    }).catch((err) => console.warn("Không gửi được điều ước qua Formspree:", err));
   }
 
   // 3) Nếu đã cấu hình wishGoogleForm, đổ điều ước thẳng vào Google Sheet liên kết
