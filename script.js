@@ -169,7 +169,6 @@ function saveWish(text){
   const fill = document.getElementById("loading-bar-fill");
   const text = document.getElementById("loading-text");
   const readyBtn = document.getElementById("loading-ready");
-  const fullscreenHint = document.querySelector(".loading-fullscreen-hint");
   const screen = document.getElementById("loading-screen");
   let p = 0;
   const iv = setInterval(() => {
@@ -179,7 +178,6 @@ function saveWish(text){
       clearInterval(iv);
       text.style.display = "none";
       readyBtn.classList.add("shown");
-      if (fullscreenHint) fullscreenHint.classList.add("shown");
     }
     fill.style.width = p + "%";
   }, 160);
@@ -187,14 +185,6 @@ function saveWish(text){
   readyBtn.addEventListener("click", () => {
     ensureAudioCtx();
     sfxClick();
-
-    // tự động mở toàn màn hình (một số trình duyệt chỉ cho phép khi có thao tác click thật)
-    const el = document.documentElement;
-    const requestFs = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
-    if (requestFs) {
-      requestFs.call(el).catch(() => { /* người dùng/trình duyệt từ chối fullscreen, vẫn chạy web bình thường */ });
-    }
-
     document.body.classList.remove("is-loading");
     screen.classList.add("hidden");
     playIntroTimeline();
@@ -555,6 +545,7 @@ function onSectionEnter(id){
   if (id === "special-day") revealSpecialDay();
   if (id === "message") typeMessage();
   if (id === "cake") startCakeSequence();
+  if (id === "surprise") revealSurprise();
   if (id === "final") revealFinal();
 }
 
@@ -819,25 +810,21 @@ function launchFireworksSequence(){
 }
 
 /* ============================================================
-   BẤT NGỜ / HỘP QUÀ
+   BẤT NGỜ / LÁ THƯ
    ============================================================ */
-const surpriseBtn = document.getElementById("surprise-btn");
 const giftStage = document.getElementById("gift-stage");
 const giftBox = document.getElementById("gift-box");
 const giftReveal = document.getElementById("gift-reveal");
 
-surpriseBtn.addEventListener("click", () => {
-  sfxTransition();
+let surpriseRevealed = false;
+function revealSurprise(){
+  if (surpriseRevealed) return;
+  surpriseRevealed = true;
   const tl = gsap.timeline();
-  tl.to(surpriseBtn, { opacity: 0, scale: 0.8, duration: 0.4, onComplete: () => surpriseBtn.classList.add("hidden") });
-  tl.to("#bg-canvas", { filter: "brightness(1.6)", duration: 0.3, yoyo: true, repeat: 1 }, "<");
-  tl.call(() => {
-    spawnBurst(window.innerWidth/2, window.innerHeight/2, isMobile ? 25 : 55, ["#ffd27a","#ff9ecb","#a78bff"], { speed: 5, size: 3, decay: 0.012 });
-  });
   tl.set(giftStage, { display: "flex" });
   tl.to(giftStage, { opacity: 1, duration: 0.8, onStart: () => giftStage.classList.add("active") });
   tl.fromTo(giftBox, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "back.out(1.5)" }, "<");
-});
+}
 
 giftBox.addEventListener("click", () => {
   if (giftBox.classList.contains("opened")) return;
