@@ -6,7 +6,7 @@ const birthdayConfig = {
   nickname: "Phượng Anh",
   // 🕒 Ngày giờ mở web (Định dạng: YYYY-MM-DDTHH:mm:ss)
   // Ví dụ: 00h00 ngày 15 tháng 10 năm 2026
-  targetDate: "2026-9-2T20:28:00", 
+  targetDate: "2026-09-02T20:29:00", 
   
   message:
 `Chúc cậu tuổi mới thật nhiều niềm vui,
