@@ -17,14 +17,26 @@
 </head>
 <body>
 
-<!-- ============ LOADING SCREEN ============ -->
+<!-- ============ LOADING SCREEN & COUNTDOWN ============ -->
 <div id="loading-screen">
   <div class="loading-inner">
     <div class="loading-glyph">✦</div>
     <p id="loading-text">Đang chuẩn bị một điều đặc biệt...</p>
+    
     <div class="loading-bar-track">
       <div class="loading-bar-fill" id="loading-bar-fill"></div>
     </div>
+
+    <!-- KHỐI ĐẾM NGƯỢC MỚI THÊM -->
+    <div id="countdown-wrap" class="countdown-wrap">
+      <div class="countdown-grid">
+        <div class="cd-box"><span id="cd-days">00</span><label>Ngày</label></div>
+        <div class="cd-box"><span id="cd-hours">00</span><label>Giờ</label></div>
+        <div class="cd-box"><span id="cd-mins">00</span><label>Phút</label></div>
+        <div class="cd-box"><span id="cd-secs">00</span><label>Giây</label></div>
+      </div>
+    </div>
+
     <button id="loading-ready" class="loading-ready">
       <svg class="btn-click-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M9 9l6 14 2-7 7-2z"/>
