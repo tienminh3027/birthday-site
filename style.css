@@ -523,3 +523,67 @@ main{ position: relative; z-index: 10; height: 100vh; width: 100%; }
 @media (max-width: 480px){
   .hero-name{ font-size: clamp(1.9rem, 8vw, 2.6rem); }
 }
+
+/* ==========================================================================
+   COUNTDOWN TIMER STYLES
+   ========================================================================== */
+.countdown-wrap {
+  margin-top: 1.8rem;
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s var(--ease-soft), transform 0.6s var(--ease-soft);
+}
+
+.countdown-wrap.shown {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.countdown-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.cd-box {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  padding: 0.6rem 0.8rem;
+  border-radius: 14px;
+  min-width: 62px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.cd-box span {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--gold);
+  text-shadow: 0 0 12px rgba(255, 210, 122, 0.4);
+  line-height: 1.1;
+}
+
+.cd-box label {
+  font-size: 0.7rem;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 0.2rem;
+}
+
+@media (max-width: 480px) {
+  .cd-box {
+    min-width: 52px;
+    padding: 0.5rem 0.6rem;
+  }
+  .cd-box span {
+    font-size: 1.3rem;
+  }
+}
