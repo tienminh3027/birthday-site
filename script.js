@@ -4,6 +4,10 @@
 const birthdayConfig = {
   name: "PHƯỢNG ANH",
   nickname: "Phượng Anh",
+  // 🕒 Ngày giờ mở web (Định dạng: YYYY-MM-DDTHH:mm:ss)
+  // Ví dụ: 00h00 ngày 15 tháng 10 năm 2026
+  targetDate: "2026-10-15T00:00:00", 
+  
   message:
 `Chúc cậu tuổi mới thật nhiều niềm vui,
 nhiều tiếng cười,
@@ -11,19 +15,8 @@ nhiều điều bất ngờ.`,
   giftMessage:
     "Chúc cậu tuổi 17 thật rực rỡ, thi đỗ vào ngôi trường mình yêu thích. 🎁❤️",
   music: "assets/music.mp3",
-
-  // (Tùy chọn) Dán link "Form endpoint" của Formspree vào đây để điều ước được
-  // gửi thẳng về email bạn ngay khi có người nhập. Để trống ("") nếu không cần —
-  // điều ước vẫn luôn được lưu lại trong trình duyệt của người xem (localStorage).
   wishFormEndpoint: "https://formspree.io/f/mrpgeqpg",
-
-  // (Tùy chọn) Kết nối Google Form -> Google Sheet để mọi điều ước tự đổ vào 1
-  // bảng tính bạn xem bất cứ lúc nào. Lấy 2 giá trị này từ "pre-filled link" của
-  // Google Form (xem hướng dẫn trong README.md). Để trống nếu không dùng.
-  wishGoogleForm: {
-    actionUrl: "",   // đã tắt — chuyển sang dùng Formspree ở trên vì Google Form chặn submit tự động (lỗi 403)
-    entryId: "",
-  },
+  wishGoogleForm: { actionUrl: "", entryId: "" },
 };
 
 /* ============================================================
@@ -162,25 +155,68 @@ function saveWish(text){
 }
 
 /* ============================================================
-   LOADING SCREEN — chờ người dùng bấm "Sẵn sàng" mới bắt đầu
+   LOADING SCREEN & COUNTDOWN DOWN TO 00H00
    ============================================================ */
-(function loadingSequence(){
+(function loadingAndCountdownSequence(){
   document.body.classList.add("is-loading");
   const fill = document.getElementById("loading-bar-fill");
   const text = document.getElementById("loading-text");
   const readyBtn = document.getElementById("loading-ready");
   const screen = document.getElementById("loading-screen");
+  const cdWrap = document.getElementById("countdown-wrap");
+
+  // Chạy thanh loading giả lập
   let p = 0;
   const iv = setInterval(() => {
-    p += Math.random() * 12 + 4;
+    p += Math.random() * 15 + 5;
     if (p >= 100) {
       p = 100;
       clearInterval(iv);
-      text.style.display = "none";
-      readyBtn.classList.add("shown");
+      // Khi thanh loading chạy xong 100%, bắt đầu kiểm tra đếm ngược
+      checkCountdown();
     }
     fill.style.width = p + "%";
-  }, 160);
+  }, 120);
+
+  function checkCountdown() {
+    const targetTime = new Date(birthdayConfig.targetDate).getTime();
+
+    function updateTimer() {
+      const now = new Date().getTime();
+      const diff = targetTime - now;
+
+      if (diff <= 0) {
+        // Đã đến hoặc qua 00h00!
+        if (cdWrap) cdWrap.style.display = "none";
+        text.style.display = "none";
+        readyBtn.classList.add("shown");
+        return true; // Kết thúc đếm
+      }
+
+      // Chưa tới 00h00 -> Tính toán ngày, giờ, phút, giây
+      text.textContent = "Chờ đến giờ đặc biệt nhé... ✨";
+      if (cdWrap) cdWrap.classList.add("shown");
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById("cd-days").textContent = String(days).padStart(2, '0');
+      document.getElementById("cd-hours").textContent = String(hours).padStart(2, '0');
+      document.getElementById("cd-mins").textContent = String(mins).padStart(2, '0');
+      document.getElementById("cd-secs").textContent = String(secs).padStart(2, '0');
+
+      return false;
+    }
+
+    const finished = updateTimer();
+    if (!finished) {
+      const timer = setInterval(() => {
+        if (updateTimer()) clearInterval(timer);
+      }, 1000);
+    }
+  }
 
   readyBtn.addEventListener("click", () => {
     ensureAudioCtx();
