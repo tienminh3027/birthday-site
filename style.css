@@ -104,11 +104,6 @@ body{
   opacity: 1; visibility: visible; transform: translateY(0);
   animation: pulse-glow 2.4s ease-in-out infinite;
 }
-.loading-fullscreen-hint{
-  margin-top: 0.8rem; font-size: 0.75rem; color: var(--ink-dim);
-  opacity: 0; letter-spacing: 0.02em;
-}
-.loading-fullscreen-hint.shown{ opacity: 0.55; }
 .loading-ready:hover{
   border-color: var(--magenta-soft);
   box-shadow: 0 10px 30px rgba(255,92,168,0.35);
@@ -435,7 +430,7 @@ main{ position: relative; z-index: 10; height: 100vh; width: 100%; }
 .btn-glow-pulse.hidden{ display:none; }
 
 .gift-stage{
-  margin-top: 3rem; display:flex; flex-direction:column; align-items:center; gap: 2rem;
+  margin-top: 1.5rem; display:flex; flex-direction:column; align-items:center; gap: 2rem;
   opacity: 0; pointer-events:none;
 }
 .gift-stage.active{ opacity:1; pointer-events:auto; }
