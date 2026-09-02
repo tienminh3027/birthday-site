@@ -169,6 +169,7 @@ function saveWish(text){
   const fill = document.getElementById("loading-bar-fill");
   const text = document.getElementById("loading-text");
   const readyBtn = document.getElementById("loading-ready");
+  const fullscreenHint = document.querySelector(".loading-fullscreen-hint");
   const screen = document.getElementById("loading-screen");
   let p = 0;
   const iv = setInterval(() => {
@@ -178,6 +179,7 @@ function saveWish(text){
       clearInterval(iv);
       text.style.display = "none";
       readyBtn.classList.add("shown");
+      if (fullscreenHint) fullscreenHint.classList.add("shown");
     }
     fill.style.width = p + "%";
   }, 160);
@@ -185,6 +187,14 @@ function saveWish(text){
   readyBtn.addEventListener("click", () => {
     ensureAudioCtx();
     sfxClick();
+
+    // tự động mở toàn màn hình (một số trình duyệt chỉ cho phép khi có thao tác click thật)
+    const el = document.documentElement;
+    const requestFs = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
+    if (requestFs) {
+      requestFs.call(el).catch(() => { /* người dùng/trình duyệt từ chối fullscreen, vẫn chạy web bình thường */ });
+    }
+
     document.body.classList.remove("is-loading");
     screen.classList.add("hidden");
     playIntroTimeline();
@@ -833,6 +843,8 @@ giftBox.addEventListener("click", () => {
   if (giftBox.classList.contains("opened")) return;
   giftBox.classList.add("opened");
   sfxGiftOpen();
+  const giftHint = document.getElementById("gift-hint");
+  if (giftHint) giftHint.classList.add("hidden");
   spawnBurst(window.innerWidth/2, window.innerHeight/2 - 60, isMobile ? 30 : 60, ["#ffd27a","#ff5ca8","#a78bff","#ffffff"], { speed: 5, size: 3, decay: 0.012, shape: "heart" });
   gsap.to(giftReveal, { opacity: 1, y: 0, duration: 1, delay: 0.4 });
 });
@@ -848,32 +860,7 @@ function revealFinal(){
   gsap.fromTo(".final-content", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" });
 }
 
-document.getElementById("replay-btn").addEventListener("click", () => {
-  sfxTransition();
-  // reset toàn bộ trạng thái tương tác rồi quay về đầu
-  candles.forEach(c => { c.lit = true; c.flame.scale.set(1,1,1); c.flameLight.intensity = 0.6; });
-  candlesLit = candleCount;
-  fireworksLaunched = false;
 
-  wishConfirmed = false;
-  wishInput.value = "";
-  wishInputWrap.style.pointerEvents = "auto";
-  gsap.set(wishInputWrap, { opacity: 0, x: 0, y: 0 });
-  cakeCanvas.classList.add("locked");
-
-  gsap.set("#wish-done", { opacity: 0 });
-  gsap.set("#cake-canvas, #wish-text, #wish-sub", { opacity: 1 });
-  gsap.set("#wish-sub", { opacity: 0 });
-  giftBox.classList.remove("opened");
-  giftStage.classList.remove("active");
-  gsap.set(giftStage, { opacity: 0, display: "none" });
-  gsap.set(giftReveal, { opacity: 0, y: 20 });
-  surpriseBtn.classList.remove("hidden");
-  gsap.set(surpriseBtn, { opacity: 1, scale: 1 });
-  gsap.set("#fireworks-title", { opacity: 0 });
-
-  goToIndex(0);
-});
 
 /* ============================================================
    KHỞI TẠO ICON (lucide load kiểu defer)
